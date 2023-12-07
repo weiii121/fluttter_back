@@ -64,7 +64,7 @@ class MyHomePage extends StatelessWidget {
                                         elevation: 3,
                                         child: InkWell(
                                           child: ListTile(
-                                            title: data.name== "" ? const Text("No name") : Text(data.name),
+                                            title: Text(data.name),
                                             subtitle: Text(data.id),
                                             trailing: Text(data.rssi.toString()),
                                           ),
@@ -136,8 +136,10 @@ class BLEController extends GetxController{
         withServices:[],
         scanMode: ScanMode.lowLatency).listen((device) {
       if (device.id != "" && (_device_t.where((element) => element.id == device.id).isEmpty)) {
+        if(device.name!="") {
           _dataController.sink.add(_device_t);
           _device_t.add(device);
+        }
       }
     }, onError: (err) {
       print("$err");
